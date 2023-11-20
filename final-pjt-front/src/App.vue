@@ -23,10 +23,8 @@ import { RouterView, RouterLink } from 'vue-router'
 import { useCounterStore } from '@/stores/counter';
 const store = useCounterStore()
 
-// const UserId = ref(1) //  원래 백엔드에서 받아와야하는데 테스트하는 것
 store.getUserInfo()
-// const UserId = store.getUserInfo() //백엔드에서 받아오는 것
-// console.log(UserId)
+
 
 </script>
 <style scoped>

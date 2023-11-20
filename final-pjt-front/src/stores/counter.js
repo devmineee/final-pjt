@@ -100,5 +100,5 @@ export const useCounterStore = defineStore('counter', () => {
   }
 
 
-  return { signUp,logIn, logOut, getUserInfo, isLogin, token, UserId, UserName }
+  return { signUp,logIn, logOut, getUserInfo, isLogin, token, UserId, UserName,API_URL }
 },{persist:true})
