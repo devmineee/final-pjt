@@ -3,6 +3,10 @@
     <!-- 기본적으로 추천해줄 나라들 -->
     <!-- 나라들 2.. -->
     <!-- 나라들 3.. -->
+    <div v-for="country in three_country">
+      <h1>{{ country }}의 콘텐츠</h1>
+      <MovieHomeAreaContentCountry />
+    </div>
     <!-- 권역들 모여있는 버튼 -->
     <!-- 권역 안에 나라들 모음 -->
     
@@ -27,8 +31,9 @@
   import { onMounted, ref } from 'vue';
   import MovieHomeAreaButton from '../components/MovieHomeAreaButton.vue';
   import MovieHomeArea from '@/components/MovieHomeArea.vue';
+  import MovieHomeAreaContentCountry from '../components/MovieHomeAreaContentCountry.vue';
 
-  
+  const three_country = ["일본","프랑스","인도"]
   
 
 
