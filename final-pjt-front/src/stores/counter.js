@@ -7,6 +7,8 @@ export const useCounterStore = defineStore('counter', () => {
   const router = useRouter()
   const API_URL = 'http://127.0.0.1:8000'
   const token = ref(null)
+  const UserId = ref(null)
+  const UserName = ref(null)
 
   const isLogin = computed(()=>{
     if (token.value===null){
@@ -60,6 +62,7 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })}
 
+
   const logOut = function(){
     axios({
       method:'post',
@@ -76,5 +79,26 @@ export const useCounterStore = defineStore('counter', () => {
     })
   }
   
-  return { signUp,logIn, logOut,isLogin,token }
+
+  const getUserInfo = function(){
+    axios({
+      method:'get',
+      url:`${API_URL}/accounts/user/`,
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
+    })
+    .then(res => {
+      // console.log('유저정보 가져옴')
+      console.log(res.data)
+      UserId.value = res.data.pk
+      UserName.value = res.data.username
+    })
+    .catch(err =>{
+      console.log(err)
+    })
+  }
+
+
+  return { signUp,logIn, logOut, getUserInfo, isLogin, token, UserId, UserName }
 },{persist:true})

@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useCounterStore } from '@/stores/counter'
 import SignUpView from '@/views/SignUpView.vue'
 import LogInView from '@/views/LogInView.vue'
-import LikeView from '@/views/MyLikeView.vue'
+import MyLikeView from '@/views/MyLikeView.vue'
 import UserView from '@/views/UserView.vue'
 
 const router = createRouter({
