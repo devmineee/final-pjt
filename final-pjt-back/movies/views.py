@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 from rest_framework.response import Response
 import requests
 import django
@@ -6,7 +6,7 @@ from django.conf import settings
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from .models import Country, Area
-from .serializers import CountrySerializer, GenreSerializer
+from .serializers import CountrySerializer, GenreSerializer, AreaSerializer
 
 def index(request):
     Response(request.data)
@@ -93,6 +93,7 @@ def save_genre_data(request):
 
     for genre in response.get('genres'):
         save_data = {
+            'id' : genre.get('id'),
             'name' : genre.get('name')
         }
         serializer = GenreSerializer(data=save_data)
@@ -102,13 +103,25 @@ def save_genre_data(request):
     return Response(response)
 
 
-def movie_by_country(request, country):
-    # 나라별 고유 값을 입력받고 그와 관련된 키워드 가지고 있는 모든 영화 찾아주기
+@api_view(['GET',])
+def get_movie_by_country(request, country_code, page):
+#     # 빼야 할 장르 번호 : 12 모험 16 애니메이션 14 판타지 27 공포9648 미스터리 878 SF 53 스릴러
     TMDB_ACCESS_TOKEN = settings.TMDB_ACCESS_TOKEN
-    url = f"https://api.themoviedb.org/3/search/keyword?query={country}"
+
+    url = f"https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko&page={page}&sort_by=popularity.desc&vote_count.gte=200&with_origin_country={country_code}&without_genres=36%2C%2012%2C%2016%2C%2014%2C%2027%2C%209648%2C%20878%2C%2053"
 
     headers = {
         "accept": "application/json",
-        "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"}
+        "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"
+    }
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers).json()
+
+    return Response(response)
+
+
+@api_view(['GET',])
+def area_list(request):
+    areas = get_list_or_404(Area)
+    serializer = AreaSerializer(areas, many=True)
+    return Response(serializer.data)

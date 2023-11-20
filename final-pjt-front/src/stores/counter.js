@@ -7,6 +7,7 @@ export const useCounterStore = defineStore('counter', () => {
   const router = useRouter()
   const API_URL = 'http://127.0.0.1:8000'
   const token = ref(null)
+  const areas = ref([])
 
   const isLogin = computed(()=>{
     if (token.value===null){
@@ -75,6 +76,19 @@ export const useCounterStore = defineStore('counter', () => {
       console.log(err)
     })
   }
+
+  const getAreas = function () {
+    axios({
+      method:'get',
+      url : `${API_URL}/api/v1/movies/area/`,
+    })
+    .then((res)=>{
+      areas.value = res.data
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
   
-  return { signUp,logIn, logOut,isLogin,token }
+  return { signUp,logIn, logOut,isLogin,token, getAreas, areas }
 },{persist:true})
