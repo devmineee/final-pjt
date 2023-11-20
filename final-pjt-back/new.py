@@ -49,3 +49,33 @@ for country in loaded:
     # 아프리카
     elif country["iso_3166_1"] in ["NG","ET","CD","ZA","TZ"]:
         country["area"] = 10
+
+    else:
+        country["area"] = None
+
+
+
+
+{"model": "movies.area",
+   "pk": 1, 
+   "fields": {"name": "EastAsia"}
+  }
+
+
+new_arr = []
+i = 1
+for country in loaded:
+    new_arr.append({"model": "movies.country",
+    "pk": i, 
+   "fields": {"english_name": country["english_name"],
+              "iso_3166_1": country["iso_3166_1"],
+              "area": country["area"]}
+  })
+    i += 1
+
+
+print(new_arr)
+file_path = "./test.json"
+
+with open (file_path, mode="w", encoding='utf-8') as file:
+	json.dump(new_arr, file)
