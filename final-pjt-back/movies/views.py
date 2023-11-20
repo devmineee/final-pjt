@@ -1,7 +1,114 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-# Create your views here.
-
+import requests
+import django
+from django.conf import settings
+from rest_framework.decorators import api_view
+from django.http import JsonResponse
+from .models import Country, Area
+from .serializers import CountrySerializer, GenreSerializer
 
 def index(request):
     Response(request.data)
+
+
+@api_view(['GET',])
+def save_country_data(request):
+
+    TMDB_ACCESS_TOKEN = settings.TMDB_ACCESS_TOKEN
+    url = "https://api.themoviedb.org/3/configuration/countries?language=ko"
+
+    headers = {
+        "accept": "application/json",
+        "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"}
+
+    response = requests.get(url, headers=headers).json()
+
+    for country in response:
+        save_data = {
+            'iso_3166_1' : country.get('iso_3166_1'),
+            'english_name' : country.get('english_name'),
+            'korean_name':country.get('native_name'),
+        }
+
+        # 동아시아
+        if save_data["iso_3166_1"] in ["KR","CN","JP","TW","HK"]:
+            save_data["area"] = 1
+
+        # 동남아시아
+        elif save_data["iso_3166_1"] in ["TH", "VN", "SG", "PH", "ID"]:
+            save_data["area"] = 2
+
+        # 중앙아시아
+        elif save_data["iso_3166_1"] in ["MN","KZ","UZ"]:
+            save_data["area"] = 3
+
+        # 남아시아
+        elif save_data["iso_3166_1"] in ["IN","PK"]:
+            save_data["area"] = 4
+
+        # 중동
+        elif save_data["iso_3166_1"] in ["IL","EG","TR","IR","SA"]:
+            save_data["area"] = 5
+
+        # 북미
+        elif save_data["iso_3166_1"] in ["US", "CA"]:
+            save_data["area"] = 6
+
+        # 남미
+        elif save_data["iso_3166_1"] in ["MX","BR","AR","CL","CO"]:
+            save_data["area"] = 7
+
+        # 유럽
+        elif save_data["iso_3166_1"] in ["GB","FR","DE","ES","IT","CZ","SE"]:
+            save_data["area"] = 8
+
+        # 오세아니아
+        elif save_data["iso_3166_1"] in ["NZ","AU"]:
+            save_data["area"] = 9
+
+        # 아프리카
+        elif save_data["iso_3166_1"] in ["NG","ET","CD","ZA","TZ"]:
+            save_data["area"] = 10
+
+        serializer = CountrySerializer(data=save_data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+
+    return Response(response)
+
+
+@api_view(['GET',])
+def save_genre_data(request):
+
+    TMDB_ACCESS_TOKEN = settings.TMDB_ACCESS_TOKEN
+    url = "https://api.themoviedb.org/3/genre/movie/list?language=ko"
+
+    headers = {
+        "accept": "application/json",
+        "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"}
+
+    response = requests.get(url, headers=headers).json()
+
+    for genre in response.get('genres'):
+        save_data = {
+            'name' : genre.get('name')
+        }
+        serializer = GenreSerializer(data=save_data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+    return Response(response)
+
+
+def movie_by_country(request, country):
+    # 나라별 고유 값을 입력받고 그와 관련된 키워드 가지고 있는 모든 영화 찾아주기
+    TMDB_ACCESS_TOKEN = settings.TMDB_ACCESS_TOKEN
+    url = f"https://api.themoviedb.org/3/search/keyword?query={country}"
+
+    headers = {
+        "accept": "application/json",
+        "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"}
+
+    response = requests.get(url, headers=headers)
