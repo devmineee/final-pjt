@@ -12,4 +12,5 @@ urlpatterns = [
     path('save_movie/<int:country_id>/', views.save_movie_by_country),
     path('country/', views.country_list),
     path('country/<int:country_id>/', views.movie_by_country),
+    path('detail/<int:movie_id>/', views.movie_detail),
 ]

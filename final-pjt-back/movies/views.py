@@ -209,3 +209,10 @@ def movie_by_country(request, country_id):
     movies = get_list_or_404(Movie, countries=country_id)
     serializer = MovieSerializer(movies, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET',])
+def movie_detail(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    serializer = MovieSerializer(movie)
+    return Response(serializer.data)
