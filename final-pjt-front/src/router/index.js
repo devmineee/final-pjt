@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useCounterStore } from '@/stores/counter'
+import { useAccountStore } from '@/stores/auth_movie'
 import SignUpView from '@/views/SignUpView.vue'
 import LogInView from '@/views/LogInView.vue'
-import LikeView from '@/views/MyLikeView.vue'
+import MyLikeView from '@/views/MyLikeView.vue'
 import UserView from '@/views/UserView.vue'
 
 const router = createRouter({
@@ -32,7 +32,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to,from)=>{
-  const store = useCounterStore()
+  const store = useAccountStore()
   // if (to.name === 'ArticleView' && !store.isLogin) {
   //   window.alert('로그인이 필요합니다.')
   //   return { name : 'LogInView'}
