@@ -24,9 +24,9 @@ class Movie(models.Model):
     title = models.CharField(max_length=50)
     release_date = models.DateField()
     popularity = models.FloatField()
-    vote_count = models.IntegerField()
-    vote_average = models.FloatField()
-    overview = models.TextField()
+    vote_count = models.IntegerField(null=True)
+    vote_average = models.FloatField(null=True)
+    overview = models.TextField(null=True)
     poster_path = models.CharField(max_length=200)
     # 중개 테이블
     countries = models.ManyToManyField(Country, related_name='movies')

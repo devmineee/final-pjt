@@ -80,8 +80,6 @@ def save_country_data(request):
 @api_view(['GET',])
 def save_genre_data(request):
 
-    Genre.objects.all().delete()
-    
     url = "https://api.themoviedb.org/3/genre/movie/list?language=ko"
 
     response = requests.get(url, headers=headers).json()
@@ -99,32 +97,37 @@ def save_genre_data(request):
 
 
 @api_view(['GET',])
-def save_movie_by_country(request):
+def save_movie_by_country(request, country_id):
 
     # 빼야 할 장르 번호 : 12 모험 16 애니메이션 14 판타지 27 공포9648 미스터리 878 SF 53 스릴러
    
-    countries = get_list_or_404(Country)
+    country = get_object_or_404(Country, pk=country_id)
+    print(country.iso_3166_1)
+    page = 1
+    url = f"https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko&page={page}&sort_by=popularity.desc&vote_count.gte=200&with_origin_country={country.iso_3166_1}&without_genres=36%2C%2012%2C%2016%2C%2014%2C%2027%2C%209648%2C%20878%2C%2053"
+    response = requests.get(url, headers=headers).json()
 
-    for country in countries:
-        page = 1
-        url = f"https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko&page={page}&sort_by=popularity.desc&vote_count.gte=200&with_origin_country={country.iso_3166_1}&without_genres=36%2C%2012%2C%2016%2C%2014%2C%2027%2C%209648%2C%20878%2C%2053"
-        response = requests.get(url, headers=headers).json()
+    for movie in response.get('results'):
+        save_data = {
+            'title' : movie.get('title'),
+            'release_date' : movie.get('release_date'),
+            'popularity' : movie.get('popularity'),
+            'vote_count' : movie.get('vote_count'),
+            'vote_average' : movie.get('vote_average'),
+            'overview' : movie.get('overview'),
+            'poster_path' : movie.get('poster_path'),
+        }
 
-        for movie in response.get('results'):
-            save_data = {
-                'title' : movie.get('title'),
-                'release_date' : movie.get('release_date'),
-                'popularity' : movie.get('popularity'),
-                'vote_count' : movie.get('vote_count'),
-                'vote_average' : movie.get('vote_average'),
-                'overview' : movie.get('overview'),
-                'poster_path' : movie.get('poster_path'),
-            }
+        serializer = MovieSerializer(data=save_data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        genres = movie.get('genre_ids')
+        movie = Movie.objects.get(pk=movie.get('id'))
+        for genre in genres:  
+            movie.genres.add(genre)
+        movie.countries.add(country.id)
 
-            movie = Movie.objects
-            serializer = MovieSerializer(data=save_data)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
+    return Response(response)
             
 
 
