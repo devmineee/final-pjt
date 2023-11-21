@@ -1,10 +1,9 @@
 <template>
-  <button
-      class="btn btn-info" 
-      data-bs-toggle="collapse" :data-bs-target="`#${area.name}`"
-      aria-expanded="false" :aria-controls="`#${area.name}`">
-      {{ area.name }}
-  </button>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" data-bs-toggle="pill"
+    :data-bs-target="`#${area.name}`" type="button" role="tab" 
+    :aria-controls="area.name" aria-selected="true">{{ area.name }}</button>
+  </li>
 </template>
 
 <script setup>

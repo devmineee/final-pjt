@@ -1,42 +1,52 @@
 <template>
-    <div>
-        <div class="card-group">
-  <div class="card">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+  <div>
+    <h1 class="col">{{countryName}}의 영화</h1>
+    <div class="row row-cols-1 row-cols-md-6 g-4">
+    <MovieCard v-for="movie in movies"
+      :key="movie.id"
+      :movie="movie"
+      />
     </div>
-    <div class="card-footer">
-      <small class="text-body-secondary">Last updated 3 mins ago</small>
-    </div>
+    <button>더보기</button>
+
   </div>
-  <div class="card">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-    </div>
-    <div class="card-footer">
-      <small class="text-body-secondary">Last updated 3 mins ago</small>
-    </div>
-  </div>
-  <div class="card">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-    </div>
-    <div class="card-footer">
-      <small class="text-body-secondary">Last updated 3 mins ago</small>
-    </div>
-  </div>
-  <button>더보기</button>
-</div>
-    </div>
+  
 </template>
 
 <script setup>
+import MovieCard from './MovieCard.vue';
+import axios from 'axios'
+import { ref, onBeforeMount } from 'vue';
+const props = defineProps({
+  countryName:String,
+  countryCode:String,
+  countryId:Number,
+})
+
+const arr = [0,1,2,3,4]
+
+const movies = ref()
+const API_URL = 'http://127.0.0.1:8000'
+
+
+const getMovieListOne = function (country_code) {
+    axios({
+      method:'get',
+      url : `${API_URL}/api/v1/movies/get_movie_by_country/${country_code}/1`,
+    })
+    .then((res)=>{
+      movies.value = res.data.results
+      console.log(movies.value)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
+
+  onBeforeMount(()=> {
+    getMovieListOne(props.countryCode)
+  })
+
 
 </script>
 

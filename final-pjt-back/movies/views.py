@@ -5,22 +5,20 @@ import django
 from django.conf import settings
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
-from .models import Country, Area
-from .serializers import CountrySerializer, GenreSerializer, AreaSerializer
+from .models import Country, Area, Movie, Genre
+from .serializers import CountrySerializer, GenreSerializer, AreaSerializer, MovieSerializer
 
-def index(request):
-    Response(request.data)
 
+TMDB_ACCESS_TOKEN = settings.TMDB_ACCESS_TOKEN
+
+headers = {
+        "accept": "application/json",
+        "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"}
 
 @api_view(['GET',])
 def save_country_data(request):
 
-    TMDB_ACCESS_TOKEN = settings.TMDB_ACCESS_TOKEN
     url = "https://api.themoviedb.org/3/configuration/countries?language=ko"
-
-    headers = {
-        "accept": "application/json",
-        "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"}
 
     response = requests.get(url, headers=headers).json()
 
@@ -82,46 +80,62 @@ def save_country_data(request):
 @api_view(['GET',])
 def save_genre_data(request):
 
-    TMDB_ACCESS_TOKEN = settings.TMDB_ACCESS_TOKEN
+    Genre.objects.all().delete()
+    
     url = "https://api.themoviedb.org/3/genre/movie/list?language=ko"
-
-    headers = {
-        "accept": "application/json",
-        "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"}
 
     response = requests.get(url, headers=headers).json()
 
     for genre in response.get('genres'):
+        print(genre)
         save_data = {
-            'id' : genre.get('id'),
             'name' : genre.get('name')
         }
         serializer = GenreSerializer(data=save_data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(id=genre.get('id'))
 
     return Response(response)
 
 
 @api_view(['GET',])
-def get_movie_by_country(request, country_code, page):
-#     # 빼야 할 장르 번호 : 12 모험 16 애니메이션 14 판타지 27 공포9648 미스터리 878 SF 53 스릴러
-    TMDB_ACCESS_TOKEN = settings.TMDB_ACCESS_TOKEN
+def save_movie_by_country(request):
 
-    url = f"https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko&page={page}&sort_by=popularity.desc&vote_count.gte=200&with_origin_country={country_code}&without_genres=36%2C%2012%2C%2016%2C%2014%2C%2027%2C%209648%2C%20878%2C%2053"
+    # 빼야 할 장르 번호 : 12 모험 16 애니메이션 14 판타지 27 공포9648 미스터리 878 SF 53 스릴러
+   
+    countries = get_list_or_404(Country)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": f"Bearer {TMDB_ACCESS_TOKEN}"
-    }
+    for country in countries:
+        page = 1
+        url = f"https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko&page={page}&sort_by=popularity.desc&vote_count.gte=200&with_origin_country={country.iso_3166_1}&without_genres=36%2C%2012%2C%2016%2C%2014%2C%2027%2C%209648%2C%20878%2C%2053"
+        response = requests.get(url, headers=headers).json()
 
-    response = requests.get(url, headers=headers).json()
+        for movie in response.get('results'):
+            save_data = {
+                'title' : movie.get('title'),
+                'release_date' : movie.get('release_date'),
+                'popularity' : movie.get('popularity'),
+                'vote_count' : movie.get('vote_count'),
+                'vote_average' : movie.get('vote_average'),
+                'overview' : movie.get('overview'),
+                'poster_path' : movie.get('poster_path'),
+            }
 
-    return Response(response)
+            movie = Movie.objects
+            serializer = MovieSerializer(data=save_data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+            
 
 
 @api_view(['GET',])
 def area_list(request):
     areas = get_list_or_404(Area)
     serializer = AreaSerializer(areas, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET',])
+def country_by_area(request, area_id):
+    countries = get_list_or_404(Country, area_id=area_id)
+    serializer = CountrySerializer(countries, many=True)
     return Response(serializer.data)
