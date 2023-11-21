@@ -34,11 +34,11 @@ const router = createRouter({
       name: 'MovieHomeView',
       component: MovieHomeView
     },
-    {
-      path: '/movie/:id',
-      name: 'MovieDetailView',
-      component: MovieDetailView
-    },
+    // {
+    //   path: '/movie/:id',
+    //   name: 'MovieDetailView',
+    //   component: MovieDetailView
+    // },
   ]
 })
 

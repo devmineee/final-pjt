@@ -29,14 +29,13 @@ const movies = ref()
 const API_URL = 'http://127.0.0.1:8000'
 
 
-const getMovieListOne = function (country_code) {
+const getMovieList = function (country_id) {
     axios({
       method:'get',
-      url : `${API_URL}/api/v1/movies/get_movie_by_country/${country_code}/1`,
+      url : `${API_URL}/api/v1/movies/country/${country_id}/`,
     })
     .then((res)=>{
-      movies.value = res.data.results
-      console.log(movies.value)
+      movies.value = res.data
     })
     .catch((err)=>{
       console.log(err)
@@ -44,7 +43,7 @@ const getMovieListOne = function (country_code) {
   }
 
   onBeforeMount(()=> {
-    getMovieListOne(props.countryCode)
+    getMovieList(props.countryId)
   })
 
 

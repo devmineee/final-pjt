@@ -2,10 +2,6 @@ from rest_framework import serializers
 from .models import Movie, Genre, Area, Country, Comment
 
 
-        
-        
-
-
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
@@ -28,6 +24,12 @@ class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = '__all__'
+
+
+class MovieSaveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        exclude = ('countries', 'genres', 'like_users',)
 
 
 class CommentSerializer(serializers.ModelSerializer):

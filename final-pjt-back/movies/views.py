@@ -6,7 +6,7 @@ from .models import Comment, Country, Area, Movie, Genre
 import requests
 from django.conf import settings
 from django.http import JsonResponse
-from .serializers import CountrySerializer, GenreSerializer, AreaSerializer, MovieSerializer, CommentSerializer
+from .serializers import CountrySerializer, GenreSerializer, AreaSerializer, MovieSerializer, CommentSerializer, MovieSaveSerializer
 
 @api_view(['POST'])
 def movie_likes(request,movie_pk):
@@ -153,6 +153,12 @@ def save_movie_by_country(request, country_id):
     response = requests.get(url, headers=headers).json()
 
     for movie in response.get('results'):
+
+        if Movie.objects.filter(pk=movie.get('id')).exists():
+            movie = Movie.objects.get(pk=movie.get('id'))
+            movie.countries.add(country.id)
+            continue
+        
         save_data = {
             'title' : movie.get('title'),
             'release_date' : movie.get('release_date'),
@@ -163,12 +169,15 @@ def save_movie_by_country(request, country_id):
             'poster_path' : movie.get('poster_path'),
         }
 
-        serializer = MovieSerializer(data=save_data)
+        if not save_data['overview']:
+            save_data['overview'] = "등록된 줄거리가 없습니다."
+
+        serializer = MovieSaveSerializer(data=save_data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(id=movie.get('id'))
         genres = movie.get('genre_ids')
         movie = Movie.objects.get(pk=movie.get('id'))
-        for genre in genres:  
+        for genre in genres:
             movie.genres.add(genre)
         movie.countries.add(country.id)
 
@@ -186,4 +195,17 @@ def area_list(request):
 def country_by_area(request, area_id):
     countries = get_list_or_404(Country, area_id=area_id)
     serializer = CountrySerializer(countries, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET',])
+def country_list(request):
+    countries = get_list_or_404(Country)
+    serializer = CountrySerializer(countries, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET',])
+def movie_by_country(request, country_id):
+    movies = get_list_or_404(Movie, countries=country_id)
+    serializer = MovieSerializer(movies, many=True)
     return Response(serializer.data)

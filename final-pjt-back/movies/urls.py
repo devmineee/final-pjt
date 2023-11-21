@@ -10,4 +10,6 @@ urlpatterns = [
     path('area/', views.area_list),
     path('area/<int:area_id>/', views.country_by_area),
     path('save_movie/<int:country_id>/', views.save_movie_by_country),
+    path('country/', views.country_list),
+    path('country/<int:country_id>/', views.movie_by_country),
 ]
