@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
 import axios  from 'axios'
 
+
 export const useAccountStore = defineStore('account', () => {
   const router = useRouter()
   const API_URL = 'http://127.0.0.1:8000'
@@ -32,7 +33,7 @@ export const useAccountStore = defineStore('account', () => {
     })
       .then(res=>{
         const password = password1
-        // logIn({username,password})
+        logIn({username,password})
         console.log(res)
         console.log('회원가입 완료')
       })
