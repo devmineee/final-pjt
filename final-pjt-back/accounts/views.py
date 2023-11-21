@@ -35,5 +35,11 @@ def custom_getUserInfo(request,user_pk):
     serializer = AccountSerializer(user)
     return Response(serializer.data)
   
-    
+def getLikeMovies(request,user_pk):
+    user = get_object_or_404(User,pk=user_pk)
+    like_movies = user.movie_set.all()
+    context = {
+        'like_movies' : like_movies, 
+    }
+    return JsonResponse(context)
     

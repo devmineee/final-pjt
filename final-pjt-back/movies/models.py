@@ -32,3 +32,10 @@ class Movie(models.Model):
     countries = models.ManyToManyField(Country, related_name='movies')
     genres = models.ManyToManyField(Genre, related_name='movies')
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    
+    
+class Comment(models.Model):
+    movie = models.ForeignKey(Movie,on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
