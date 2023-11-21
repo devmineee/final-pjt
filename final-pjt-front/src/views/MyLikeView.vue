@@ -5,8 +5,8 @@
 </template>
 
 <script setup>
-    import { useCounterStore } from '@/stores/counter';
-    const store = useCounterStore()
+    import { useAccountStore } from '@/stores/auth_movie.js'
+    const store = useAccountStore()
 </script>
 
 <style scoped>

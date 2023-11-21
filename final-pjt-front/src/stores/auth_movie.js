@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
 import axios  from 'axios'
 
-export const useCounterStore = defineStore('counter', () => {
+export const useAccountStore = defineStore('account', () => {
   const router = useRouter()
   const API_URL = 'http://127.0.0.1:8000'
   const token = ref(null)
@@ -32,7 +32,7 @@ export const useCounterStore = defineStore('counter', () => {
     })
       .then(res=>{
         const password = password1
-        logIn({username,password})
+        // logIn({username,password})
         console.log(res)
         console.log('회원가입 완료')
       })
@@ -53,10 +53,8 @@ export const useCounterStore = defineStore('counter', () => {
       }
     })
       .then(res=>{
-        console.log(res)
         token.value = res.data.key
         console.log('로그인 완료')
-        //router.push({name:'main페이지'})
       })
       .catch(err=>{
         console.log(err)
@@ -72,7 +70,7 @@ export const useCounterStore = defineStore('counter', () => {
       token.value = null
       console.log('로그아웃 성공')
       console.log(res)
-      router.push({name:'logIn'}) 
+      // router.push({name:'logIn'}) 
     })
     .catch((err)=>{
       console.log(err)
@@ -80,7 +78,7 @@ export const useCounterStore = defineStore('counter', () => {
   }
   
 
-  const getUserInfo = function(){
+  const getCurrentUserInfo = function(){
     axios({
       method:'get',
       url:`${API_URL}/accounts/user/`,
@@ -89,7 +87,7 @@ export const useCounterStore = defineStore('counter', () => {
       }
     })
     .then(res => {
-      // console.log('유저정보 가져옴')
+      console.log('유저정보 가져옴')
       console.log(res.data)
       UserId.value = res.data.pk
       UserName.value = res.data.username
@@ -99,6 +97,9 @@ export const useCounterStore = defineStore('counter', () => {
     })
   }
 
-
-  return { signUp,logIn, logOut, getUserInfo, isLogin, token, UserId, UserName,API_URL }
-},{persist:true})
+  return { signUp,logIn, logOut, getCurrentUserInfo, isLogin, token, UserId, UserName,API_URL }
+},
+{
+   persist:true 
+  },
+  )
