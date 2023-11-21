@@ -4,6 +4,7 @@ import SignUpView from '@/views/SignUpView.vue'
 import LogInView from '@/views/LogInView.vue'
 import MyLikeView from '@/views/MyLikeView.vue'
 import UserView from '@/views/UserView.vue'
+import MovieHomeView from '@/views/MovieHomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,16 @@ const router = createRouter({
       path: '/user/:id',
       name: 'UserView',
       component: UserView
+    },
+    {
+      path: '/home',
+      name: 'MovieHomeView',
+      component: MovieHomeView
+    },
+    {
+      path: '/movie/:id',
+      name: 'MovieDetailView',
+      component: MovieDetailView
     },
   ]
 })
