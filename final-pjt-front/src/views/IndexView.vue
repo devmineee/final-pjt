@@ -1,6 +1,7 @@
 <template>
   <div>
-
+    < IndexHedaer />
+    < IndexMain / >
   </div>
 </template>
 

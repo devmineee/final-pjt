@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import MovieCard from './MovieCard.vue';
+import MovieCard from './Movies/MovieCard.vue';
 import axios from 'axios'
 import { ref, onBeforeMount } from 'vue';
 const props = defineProps({
