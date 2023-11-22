@@ -1,13 +1,15 @@
 <template>
-  <div>
-    <h1 class="col">{{countryName}}의 영화</h1>
-    <div class="row row-cols-1 row-cols-md-6 g-4">
+  <div class="bg-dark-subtle" v-show="movies">
+    <h1 class=" text-white">{{countryName}}의 영화
+      <button>더보기</button>
+    </h1>
+    <div class="row row-cols-2 row-cols-lg-3 row-cols-xxl-4 g-4">
     <MovieCard v-for="movie in movies"
       :key="movie.id"
       :movie="movie"
-      />
+    />
     </div>
-    <button>더보기</button>
+    
 
   </div>
   
