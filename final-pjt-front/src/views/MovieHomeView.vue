@@ -1,23 +1,22 @@
 <template>
   <div>
-    <!-- 기본적으로 추천해줄 나라들 -->
-    <!-- 나라들 2.. -->
-    <!-- 나라들 3.. -->
-    <div v-for="country in three_country">
-      <MovieHomeAreaContentCountry />
-    </div>
-
-    <div>
-      <MovieHomeArea />
-    </div>
-
+    <NavBar />
+    <MovieHomeMain />
   </div>
 </template>
 
 <script setup>
-  import MovieHomeArea from '@/components/MovieHomeArea.vue';
-  import MovieHomeAreaContentCountry from '../components/MovieHomeAreaContentCountry.vue';
-  const three_country = ["일본","프랑스","인도"]
+  import { onMounted } from 'vue'
+  import { useMovieStore } from '@/stores/movie.js'
+  import NavBar from '@/components/NavBar.vue'
+  import MovieHomeMain from '@/components/Movies/MovieHomeMain.vue'
+
+  const store = useMovieStore()
+
+  onMounted(()=>{
+    store.getAreas()
+  })
+
 </script>
 
 <style scoped>

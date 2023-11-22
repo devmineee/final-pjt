@@ -4,18 +4,17 @@
     role="tabpanel" :aria-labelledby="area.name"
     tabindex="0">
       <h1>{{ area.name }}</h1>
-      <MovieHomeAreaContentCountry 
+      <MovieHomeCountry
       v-for="country in countries"
       :key="country.id"
       :country-name="country.korean_name"
-      :country-code="country.iso_3166_1"
       :country-id="country.id"/>
   </div>
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue';
-import MovieHomeAreaContentCountry from './MovieHomeAreaContentCountry.vue';
+import { ref, onMounted } from 'vue';
+import MovieHomeCountry from '@/components/Movies/MovieHomeCountry.vue'
 import axios from 'axios'
 
 const props = defineProps({
@@ -38,7 +37,7 @@ const getCountryByArea = function (area_id) {
     })
   }
 
-  onBeforeMount(()=> {
+  onMounted(()=> {
     getCountryByArea(props.area.id)
   })
 

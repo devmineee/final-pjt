@@ -9,8 +9,8 @@
 </template>
 
 <script setup>
-    import CommentList from '@/components/CommentList.vue'
-    import CommentCreate from '@/components/CommentCreate.vue'
+    import CommentList from '@/components/Movies/CommentList.vue'
+    import CommentCreate from '@/components/Movies/CommentCreate.vue'
     import { ref, onMounted} from 'vue'
     import { useRoute } from 'vue-router';
     import axios from 'axios'

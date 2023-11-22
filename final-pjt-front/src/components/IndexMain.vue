@@ -1,11 +1,11 @@
 <template>
   <div>
-    <IndexView />
+    <h1>메인입니다.</h1>
   </div>
 </template>
 
 <script setup>
-  import IndexView from '@/views/IndexView.vue';
+
 </script>
 
 <style scoped>
