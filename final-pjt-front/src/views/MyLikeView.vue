@@ -1,14 +1,18 @@
 <template>
     <div>
-        <h1>내가 찜한 영화</h1>
-        <div v-for="likeMovie in likeMovies">
-            <p>title: {{ likeMovie.title }}</p>
-            <p>overview: {{ likeMovie.overview }}</p>
+        <NavBar />
+        <div class="p-3 m-3 bg-secondary-subtle text-emphasis-secondary">
+            <h1>내가 찜한 영화</h1>
+            <div v-for="likeMovie in likeMovies">
+                <p>title: {{ likeMovie.title }}</p>
+                <p>overview: {{ likeMovie.overview }}</p>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
+    import NavBar from '@/components/NavBar.vue'
     import { ref , onMounted } from 'vue'
     import axios from 'axios'
     import { useAccountStore } from '@/stores/auth_movie'

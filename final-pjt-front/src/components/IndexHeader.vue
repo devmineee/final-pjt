@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>헤더입니다.</h1>
+    <h1>로고(인덱스 헤더)</h1>
   </div>
 </template>
 
