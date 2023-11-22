@@ -13,7 +13,7 @@
 
         <template  v-if="!isSameUser" >
             <h3>{{ username }}님이 찜한 영화</h3>
-            <userLike :profileId="profileId" />
+            <userLike :username="username" :profileId="profileId" />
         </template>
         
         <h3>팔로잉</h3>

@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
 from .models import User
 from .serializers import AccountSerializer, FollowingSerializer
+from movies.serializers import MovieSerializer
 from rest_framework.response import Response
 # Create your views here.
 # @login_required # 여기서 해줘야되나??
@@ -29,17 +30,22 @@ def follow(request, user_pk):
         return JsonResponse(context)
     # return JsonResponse('내가 나를 follow할 때...') // 막아야 한다.
     
+    
 @api_view(['GET'])
 def custom_getUserInfo(request,user_pk):
     user = get_object_or_404(User,pk=user_pk)
     serializer = AccountSerializer(user)
     return Response(serializer.data)
   
+
+@api_view(['GET'])
 def getLikeMovies(request,user_pk):
     user = get_object_or_404(User,pk=user_pk)
     like_movies = user.movie_set.all()
-    context = {
-        'like_movies' : like_movies, 
-    }
-    return JsonResponse(context)
+    print(like_movies)
+    serializer = MovieSerializer(like_movies,many=True)
+    # context = {
+    #     'like_movies' : like_movies, 
+    # }
+    return Response(serializer.data)
     

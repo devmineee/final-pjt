@@ -3,8 +3,9 @@ import { useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
 import axios  from 'axios'
 
+
 export const useMovieStore = defineStore('movie', () => {
-  
+
   const API_URL = 'http://127.0.0.1:8000'
   const router = useRouter()
   const areas = ref([])
@@ -28,9 +29,7 @@ export const useMovieStore = defineStore('movie', () => {
     })
   }
 
-  
 
   
-  
-  return { getAreas, areas, countries }
+  return { getAreas, areas, countries, API_URL,   }
 },{persist:true})
