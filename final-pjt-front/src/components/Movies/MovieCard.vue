@@ -1,19 +1,20 @@
 <template>
-  <div class="col">
+  <div @click="goDetail" class="col my-3">
     <div class="card h-100">
       <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" class="card-img-top" alt="...">
-      <div class="card-body">
+      <div class="card-body bg-body-secondary">
         <h5 class="card-title">{{movie.title}}</h5>
         <p class="card-text">{{ shortOverview }}</p>
-        <button @click="goDetail">더 보기</button>
-        <button v-if="!isLiked" @click="movieLike(movie.id)">찜 하기</button>
-        <button v-if="isLiked" @click="movieLike(movie.id)">찜 해제</button>
+          <div class="d-flex justify-content-end">
+            <font-awesome-icon v-if="!isLiked" @click.stop="movieLike(movie.id)" icon="fa-regular fa-heart" size="2xl" style="color: #e90707;" />
+            <font-awesome-icon v-if="isLiked" @click.stop="movieLike(movie.id)" icon="fa-solid fa-heart" bounce size="2xl" style="color: #e90707;" />
+          </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup>  
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
