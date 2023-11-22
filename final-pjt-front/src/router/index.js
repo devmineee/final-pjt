@@ -6,11 +6,17 @@ import MyLikeView from '@/views/MyLikeView.vue'
 import UserView from '@/views/UserView.vue'
 import MovieHomeView from '@/views/MovieHomeView.vue'
 import MovieDetailView from '@/views/MovieDetailView.vue'
+import IndexView from '@/views/IndexView.vue'
 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/',
+      name: 'IndexView',
+      component: IndexView
+    },
     {
       path: '/signup',
       name: 'SignUpView',

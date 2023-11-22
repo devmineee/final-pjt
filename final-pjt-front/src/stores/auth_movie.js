@@ -34,8 +34,6 @@ export const useAccountStore = defineStore('account', () => {
       .then(res=>{
         const password = password1
         logIn({username,password})
-        console.log(res)
-        console.log('회원가입 완료')
       })
       .catch(err=>{
         console.log(err)
@@ -55,7 +53,7 @@ export const useAccountStore = defineStore('account', () => {
     })
       .then(res=>{
         token.value = res.data.key
-        console.log('로그인 완료')
+        router.push({name:'MovieHomeView'}) 
       })
       .catch(err=>{
         console.log(err)
@@ -69,9 +67,7 @@ export const useAccountStore = defineStore('account', () => {
     })
     .then((res)=>{
       token.value = null
-      console.log('로그아웃 성공')
-      console.log(res)
-      // router.push({name:'logIn'}) 
+      router.push({name:'IndexView'}) 
     })
     .catch((err)=>{
       console.log(err)
