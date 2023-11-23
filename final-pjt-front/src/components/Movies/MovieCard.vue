@@ -5,9 +5,13 @@
       <div class="card-body">
         <h5 class="card-title">{{movie.title}}</h5>
         <p class="card-text">{{ shortOverview }}</p>
-        <button @click="goDetail">더 보기</button>
-        <button v-if="!isLiked" @click="movieLike(movie.id)">찜 하기</button>
-        <button v-if="isLiked" @click="movieLike(movie.id)">찜 해제</button>
+        <div class="d-flex justify-content-between">
+          <div>
+            <font-awesome-icon icon="fa-regular fa-heart" size="xl" v-if="!isLiked" @click="movieLike(movie.id)" />
+            <font-awesome-icon icon="fa-solid fa-heart" size="xl" v-if="isLiked" @click="movieLike(movie.id)"/>
+          </div>
+          <button @click="goDetail">더 보기</button>
+        </div>
       </div>
     </div>
   </div>

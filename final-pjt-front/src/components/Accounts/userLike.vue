@@ -1,11 +1,14 @@
 <template>
-    <div v-for="likeMovie in likeMovies">
-    <p>title: {{ likeMovie.title }}</p>
-    <p>overview: {{ likeMovie.overview }}</p>
+    <div class="row row-cols-2 row-cols-lg-3 row-cols-xxl-4 g-4">
+        <MovieCard v-for="movie in likeMovies"
+        :key="movie.id"
+        :movie="movie"
+        />
     </div>
 </template>
 
 <script setup>
+import MovieCard from '@/components/Movies/MovieCard.vue';
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useAccountStore } from '@/stores/auth_movie'

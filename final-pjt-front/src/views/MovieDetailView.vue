@@ -3,15 +3,13 @@
         <NavBar />
         <h1>무비 디테일</h1>
         <p>title {{ movie }}</p>
-
+        
         <CommentList :movieId="movieId"/>
-        <CommentCreate :movieId="movieId"/>
     </div>
 </template>
 
 <script setup>
 import CommentList from '@/components/Movies/CommentList.vue'
-import CommentCreate from '@/components/Movies/CommentCreate.vue'
 import { ref, onMounted} from 'vue'
 import { useRoute } from 'vue-router';
 import axios from 'axios'
