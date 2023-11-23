@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="justify-content-center">
         <NavBar />
         <MovieDetailMain />
     </div>
