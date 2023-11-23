@@ -1,6 +1,6 @@
 <template>
   <div class="mx-4">
-    <h1 class="text-white">Recommendation Component 영역입니다.</h1>
+    <h1 class="text-white"></h1>
       <MovieHomeCountry
       v-for="country in countries"
       :key="country.id"

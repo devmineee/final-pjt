@@ -1,8 +1,12 @@
 <template>
-    <div class="p-3 mb-2 bg-secondary-subtle text-emphasis-secondary">
+    <div class="p-3 my-4 bg-secondary-subtle text-emphasis-secondary">
         <h4 class="m-3">댓글</h4>
         <div class="m-2" v-for="comment in comments">
-            <p class="p-3 mb-2 bg-body-secondary">{{ comment.content }}</p>
+            <div class="d-flex flex-row mb-3">
+                <p class="p-3 mb-2 bg-body-secondary">{{ comment.content }}</p>
+                <button type="button" class="btn btn-outline-dark" @click="deleteComment(comment.id)">삭제</button>
+                <!-- <button @click="deleteComment(comment.id)">삭제</button> -->
+            </div>
         </div>
 
         <div class="container mt-1">
@@ -15,7 +19,6 @@
                         <input type="submit" value="등록" class="btn btn-primary">
                     </div>
                 </div>
-                <!-- 버튼 등 추가 폼 요소들을 여기에 추가할 수 있습니다. -->
             </form>
         </div>
 
@@ -44,7 +47,7 @@ const getComments = function(){
       console.log(err)
     })
   }
-  const content = ref(null);
+  const content = ref("");
 
 const commentCreate = function() {
     axios({
@@ -57,11 +60,32 @@ const commentCreate = function() {
     .then((res) => {
         console.log(res.data)
         getComments()
+        content.value=""
     })
     .catch((err) => {
         console.log(err);
     })
 }
+
+
+const deleteComment = function (commentId) {
+  axios({
+    method:'delete',
+    url: `${movieStore.API_URL}/api/v1/movies/${props.movieId}/comments/${commentId}`
+  })
+    .then(()=>{
+      console.log('삭제 성공')
+      getComments()
+    })
+    .catch(()=>{
+      console.log('삭제 실패')
+    })
+}
+
+
+
+
+
 onMounted(()=>{
     getComments()
 })

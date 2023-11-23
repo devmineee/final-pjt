@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('<int:movie_pk>/likes/',views.movie_likes),
     path('<int:movie_pk>/comments/',views.comment_list),
+    path('<int:movie_pk>/comments/<int:comment_pk>/',views.comment_detail),
     path('get_country/', views.save_country_data),
     path('get_genre/', views.save_genre_data),
     path('area/', views.area_list),
@@ -12,4 +13,5 @@ urlpatterns = [
     path('country/', views.country_list),
     path('country/<int:country_id>/', views.movie_by_country),
     path('detail/<int:movie_id>/', views.movie_detail),
+    
 ]

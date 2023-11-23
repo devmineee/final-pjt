@@ -38,12 +38,13 @@ class CommentSerializer(serializers.ModelSerializer):
     class MovieSerializer(serializers.ModelSerializer):
         class Meta:
             model = Movie
+            # fields = '__all__'
             fields = ('title',)
     
     # overide
     movie = MovieSerializer(read_only= True)
     
-    class Meta:
+    class Meta: 
         model = Comment
         fields = '__all__'
-        # read_only_fields = ('movie',) #위에서 override해서!
+        read_only_fields = ('movie',) #위에서 override해서!

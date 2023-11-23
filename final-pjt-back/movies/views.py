@@ -49,18 +49,21 @@ def comment_list(request,movie_pk):
         return Response(serializer.data)
 
 
-# @api_view(['DELETE','PUT'])
-# def comment_detail(request,comment_pk):
-#     comment = get_object_or_404(Comment,pk=comment_pk)
-#     if  request.method == "DELETE":
-#         comment.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
+@api_view(['DELETE','PUT','GET'])
+def comment_detail(request,movie_pk,comment_pk):
+    comment = get_object_or_404(Comment,pk=comment_pk)
+    if  request.method == "DELETE":
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
-#     elif request.method == "PUT":
-#         serializer = CommentSerializer(comment,data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save()
-#             return Response(serializer.data)
+    elif request.method == "PUT":
+        serializer = CommentSerializer(comment,data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+    elif request.method == 'GET':
+        serializers = CommentSerializer(article)
+        return Response(serializers.data)
 
 
 
