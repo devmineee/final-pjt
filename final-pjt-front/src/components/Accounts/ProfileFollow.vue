@@ -19,10 +19,7 @@
             <button type="button" class="btn btn-secondary" @click="goAnotherProfile(following.id)">Profile</button>
         </div>
     </div>
-    <div class="d-flex justify-content-end">
-        <button @click="goHome" type="button" class=" me-3 btn btn-dark">홈으로!</button>
-        <!-- <button @click="goHome">홈으로!</button> -->
-    </div>
+
 </template>
 
 <script setup>
@@ -105,9 +102,7 @@
     })
 
 
-    const goHome = function(){
-        router.push({name:'MovieHomeView'})
-    }
+
 </script>
 
 <style scoped>

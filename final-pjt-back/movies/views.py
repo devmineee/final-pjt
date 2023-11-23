@@ -8,7 +8,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from .serializers import CountrySerializer, GenreSerializer, AreaSerializer, MovieSerializer, CommentSerializer, MovieSaveSerializer
 
-@api_view(['POST'])
+@api_view(['POST','GET'])
 def movie_likes(request,movie_pk):
     movie = get_object_or_404(Movie,pk=movie_pk)
     if request.method == 'POST':
@@ -23,7 +23,16 @@ def movie_likes(request,movie_pk):
             'likes_count' : movie.like_users.count()
         }
         return JsonResponse(context)
-
+    elif request.method == 'GET':
+        if request.user in movie.like_users.all():
+            is_liked = True
+        else:
+            is_liked = False
+        context = {
+            'is_liked': is_liked,
+        }
+        return JsonResponse(context)
+        
 
 @api_view(['POST','GET',])
 def comment_list(request,movie_pk):

@@ -1,6 +1,6 @@
 <template>
     <div class="px-4 py-5 my-5 text-center">
-        <img class="d-block mx-auto mb-4" :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" alt="" width="720">
+        <img class="d-block mx-auto mb-4" :src="`https://image.tmdb.org/t/p/w500/${movie?.poster_path}`" alt="" width="720">
         <h1 class="display-5 fw-bold text-body-emphasis">{{ movie.title }}</h1>
         <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">{{ movie.overview }}</p>
