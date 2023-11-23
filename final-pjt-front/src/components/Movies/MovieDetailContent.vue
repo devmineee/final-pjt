@@ -2,7 +2,7 @@
     <div class="row">
         <div class="mb-4">
             <div class="col d-inline-flex" v-for="country in movie?.countries">
-                <h1>{{ country.korean_name}}</h1>
+                <h1>{{ country?.korean_name}}</h1>
             </div>
             <h1 class="col d-inline-flex">의 영화</h1>
         </div>

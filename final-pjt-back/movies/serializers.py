@@ -21,6 +21,8 @@ class AreaSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
+    countries = CountrySerializer(many=True, read_only=True)
+    genres = GenreSerializer(many=True, read_only=True)
     class Meta:
         model = Movie
         fields = '__all__'
