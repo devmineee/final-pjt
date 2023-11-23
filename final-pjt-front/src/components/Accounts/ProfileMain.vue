@@ -1,7 +1,12 @@
 <template>
   <div>
-    <h1>{{ username }}님의 프로필</h1>
-    <ProfileMovieLike />
+    <div class="m-3 d-flex justify-content-center">
+        <font-awesome-icon icon="fa-solid fa-user" size="2xl" /> 
+        <h2 v-if="isSameUser">My Profile</h2>
+        <h2 v-else>{{ username }} Profile</h2>
+    </div>
+
+    <ProfileMovieLike v-if="!isSameUser"/>
     <ProfileFollow />
 
   </div>
@@ -11,8 +16,9 @@
 import ProfileMovieLike from '@/components/Accounts/ProfileMovieLike.vue'
 import ProfileFollow from '@/components/Accounts/ProfileFollow.vue'
 
+
 import { useAccountStore } from '@/stores/auth_movie'
-import { ref, onMounted } from 'vue' 
+import { ref, computed, onMounted } from 'vue' 
 import axios from 'axios'
 import { useRoute,onBeforeRouteUpdate} from 'vue-router'; 
 
@@ -23,9 +29,9 @@ const route = useRoute()
 const profileId = ref(route.params.id) 
 const username = ref(null)
 
-// const isSameUser= computed(()=>{
-//     return profileId.value == accountStore.UserId ? true : false 
-// })
+const isSameUser= computed(()=>{
+    return profileId.value == accountStore.UserId ? true : false 
+})
 
 
 const getCustomUserInfo = function(){
