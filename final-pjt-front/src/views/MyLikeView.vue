@@ -3,15 +3,18 @@
         <NavBar />
         <div class="p-3 m-3 bg-secondary-subtle text-emphasis-secondary">
             <h1>내가 찜한 영화</h1>
-            <div v-for="likeMovie in likeMovies">
-                <p>title: {{ likeMovie.title }}</p>
-                <p>overview: {{ likeMovie.overview }}</p>
+            <div class="row row-cols-2 row-cols-lg-3 row-cols-xxl-4 g-4">
+                <MovieCard v-for="movie in likeMovies"
+                :key="movie.id"
+                :movie="movie"
+                />
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+    import MovieCard from '@/components/Movies/MovieCard.vue';
     import NavBar from '@/components/NavBar.vue'
     import { ref , onMounted } from 'vue'
     import axios from 'axios'
@@ -27,12 +30,11 @@
         axios({
                 url: `${movieStore.API_URL}/accounts/${accountStore.UserId}/like_movies/`,
                 method:'get',
-                headers: {  // token이 필요하지 않다고 하심???이유??
+                headers: {  
                     Authorization: `Token ${accountStore.token}`
                 }
             })
             .then((res)=>{
-                console.log(res.data)
                 likeMovies.value = res.data
             })
             .catch(err=>{
