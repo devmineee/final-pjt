@@ -2,6 +2,10 @@
     <div class="p-3 mb-3 bg-secondary-subtle text-emphasis-secondary">
         <h3>{{ username }}님이 찜한 콘텐츠</h3>
         <userLike :username="username" :profileId="profileId" />
+        <div class="d-flex justify-content-end">
+            <button @click="goHome" type="button" class=" me-3 btn btn-dark">홈으로!</button>
+            <!-- <button @click="goHome">홈으로!</button> -->
+        </div>
     </div>
 </template>
 
@@ -12,12 +16,12 @@
   
   import { ref, computed, onMounted } from 'vue' 
   import axios from 'axios'
-  import { useRoute,onBeforeRouteUpdate} from 'vue-router'; 
+  import { useRoute, useRouter, onBeforeRouteUpdate} from 'vue-router'; 
 
 
   const accountStore = useAccountStore()
   const route = useRoute()
-
+  const router = useRouter()
   const profileId = ref(route.params.id) 
   const username = ref(null)
 
@@ -51,6 +55,10 @@
       profileId.value = to.params.id
       getCustomUserInfo()
   })
+
+  const goHome = function(){
+        router.push({name:'MovieHomeView'})
+    }
 </script>
 
 <style scoped>

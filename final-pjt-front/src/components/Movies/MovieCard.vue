@@ -15,7 +15,7 @@
 </template>
 
 <script setup>  
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useAccountStore } from '@/stores/auth_movie'
@@ -34,7 +34,6 @@ const shortOverview = ref('')
 shortOverview.value = props.movie.overview.substring(0,150) + '....'
 
 const goDetail = function(){
-  console.log('------------')
   router.push({name:'MovieDetailView', params:{id:props.movie.id}})
 }
 
@@ -48,14 +47,33 @@ const movieLike = function(moviePk){
     }
   })
   .then((res)=>{
-    console.log('like성공')
-    console.log(res.data)
     isLiked.value = res.data.is_liked
   })
   .catch((err)=>{
     console.log(err)
   })
 }
+
+const getisLikedInfo = function(moviePk){
+  axios({
+    method:'get',
+    url : `${movieStore.API_URL}/api/v1/movies/${moviePk}/likes/`,
+    headers: {
+      Authorization: `Token ${accountStore.token}`
+    }
+  })
+  .then((res)=>{
+    isLiked.value = res.data.is_liked
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+}
+
+onMounted(()=>{
+  getisLikedInfo(props.movie.id)
+})
+
  
 
 </script>

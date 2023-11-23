@@ -5,9 +5,8 @@
         <h2 v-if="isSameUser">My Profile</h2>
         <h2 v-else>{{ username }} Profile</h2>
     </div>
-
-    <ProfileMovieLike v-if="!isSameUser"/>
     <ProfileFollow />
+    <ProfileMovieLike v-if="!isSameUser"/>
 
   </div>
 </template>

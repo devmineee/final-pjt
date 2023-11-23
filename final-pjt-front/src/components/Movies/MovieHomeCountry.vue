@@ -3,7 +3,7 @@
 
     <div class="m-4">
       <h1 class="text-white py-4">{{countryName}}의 영화
-        <button>더보기</button>
+        <button @click="goCountryView">더보기</button>
       </h1>
       <hr>
       <div class="row row-cols-2 row-cols-lg-3 row-cols-xxl-4">
@@ -24,6 +24,9 @@
 import MovieCard from '@/components/Movies/MovieCard.vue';
 import axios from 'axios'
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 const props = defineProps({
   countryName:String,
   countryId:Number,
@@ -47,6 +50,10 @@ const getMovieList = function (country_id) {
   onMounted(()=> {
     getMovieList(props.countryId)
   })
+  
+const goCountryView = function(){
+  router.push({name:'CountryDetailView',params:{id:props.countryId,country:props.countryName}})
+}
 
 
 </script>

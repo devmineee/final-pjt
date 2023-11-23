@@ -6,6 +6,7 @@ import MyLikeView from '@/views/MyLikeView.vue'
 import UserView from '@/views/UserView.vue'
 import MovieHomeView from '@/views/MovieHomeView.vue'
 import MovieDetailView from '@/views/MovieDetailView.vue'
+import CountryDetailView from '@/views/CountryDetailView.vue'
 import IndexView from '@/views/IndexView.vue'
 
 
@@ -46,6 +47,11 @@ const router = createRouter({
       path: '/movie/:id',
       name: 'MovieDetailView',
       component: MovieDetailView
+    },
+    {
+      path: '/movie/country/:id/:country',
+      name: 'CountryDetailView',
+      component: CountryDetailView
     },
   ]
 })
