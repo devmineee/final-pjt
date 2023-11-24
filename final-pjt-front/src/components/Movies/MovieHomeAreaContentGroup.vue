@@ -13,23 +13,8 @@ import { useMovieStore } from '@/stores/movie.js'
 import MovieHomeAreaContent from '@/components/Movies/MovieHomeAreaContent.vue'
 const store = useMovieStore()
 const areas = ref([
-  {
-    "id": 2,
-    "name": "서유럽"
-  },
-  {
-      "id": 1,
-      "name": "아시아"
-  },
-    {
-        "id": 3,
-        "name": "동유럽 및 중동"
-    },
-    {
-        "id": 4,
-        "name": "남미 및 북미"
-    }
 ])
+areas.value = store.areas
 </script>
 
 <style scoped>
