@@ -40,7 +40,7 @@ const getMovieList = function (country_id) {
       url : `${API_URL}/api/v1/movies/country/${country_id}/`,
     })
     .then((res)=>{
-      movies.value = res.data
+      movies.value = res.data.slice(0,4)
     })
     .catch((err)=>{
       console.log(err)

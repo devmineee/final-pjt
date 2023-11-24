@@ -8,7 +8,7 @@ urlpatterns = [
     path('get_genre/', views.save_genre_data),
     path('area/', views.area_list),
     path('area/<int:area_id>/', views.country_by_area),
-    path('save_movie/<int:country_id>/', views.save_movie_by_country),
+    path('save_movie/<int:country_id>/<int:page>', views.save_movie_by_country),
     path('country/', views.country_list),
     path('country/<int:country_id>/', views.movie_by_country),
     path('detail/<int:movie_id>/', views.movie_detail),
