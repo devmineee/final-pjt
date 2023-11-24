@@ -1,8 +1,8 @@
 <template>
-  <li class="nav-item" role="presentation">
+  <li class="nav-item mt-4" role="presentation">
     <button class="nav-link" data-bs-toggle="pill"
     :data-bs-target="`#${area.name}`" type="button" role="tab" 
-    :aria-controls="area.name" aria-selected="true">{{ area.name }}</button>
+    >{{ area.name }}</button>
   </li>
 </template>
 

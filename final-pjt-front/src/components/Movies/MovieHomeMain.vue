@@ -1,7 +1,7 @@
 <template>
   <div class="bg-dark">
-    <CountryRecommendation />
     <MovieHomeArea />
+    <CountryRecommendation />
   </div>
 </template>
 

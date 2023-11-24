@@ -3,7 +3,6 @@
     class="tab-pane fade" :id="area.name"
     role="tabpanel" :aria-labelledby="area.name"
     tabindex="0">
-      <h1>{{ area.name }}</h1>
       <MovieHomeCountry
       v-for="country in countries"
       :key="country.id"
@@ -21,7 +20,7 @@ const props = defineProps({
   area:Object
 })
 
-const countries = ref()
+const countries = ref(null)
 const API_URL = 'http://127.0.0.1:8000'
 
 const getCountryByArea = function (area_id) {

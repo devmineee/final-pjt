@@ -2,7 +2,7 @@
   <ul class="tab-content" id="pills-tabContent">
     <MovieHomeAreaContent
     v-for="area in areas"
-    :key="area.id"
+    :key="area"
     :area="area"/>
   </ul>
 </template>
@@ -12,7 +12,8 @@ import { ref } from 'vue'
 import { useMovieStore } from '@/stores/movie.js'
 import MovieHomeAreaContent from '@/components/Movies/MovieHomeAreaContent.vue'
 const store = useMovieStore()
-const areas = ref([])
+const areas = ref([
+])
 areas.value = store.areas
 </script>
 
