@@ -21,7 +21,7 @@ class Country(models.Model):
 
 # 모든 영화가 저장되는 테이블
 class Movie(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=500)
     release_date = models.DateField()
     popularity = models.FloatField()
     vote_count = models.IntegerField(null=True)

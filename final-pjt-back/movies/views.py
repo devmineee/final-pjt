@@ -87,45 +87,21 @@ def save_country_data(request):
             'korean_name':country.get('native_name'),
         }
 
-        # 동아시아
-        if save_data["iso_3166_1"] in ["KR","CN","JP","TW","HK"]:
+        # 아시아
+        if save_data["iso_3166_1"] in ["IN","JP","TH","HK"]:
             save_data["area"] = 1
 
-        # 동남아시아
-        elif save_data["iso_3166_1"] in ["TH", "VN", "SG", "PH", "ID"]:
+        # 서유럽
+        elif save_data["iso_3166_1"] in ["GB","FR","DE","ES","IT","NL"]:
             save_data["area"] = 2
 
-        # 중앙아시아
-        elif save_data["iso_3166_1"] in ["MN","KZ","UZ"]:
+        # 동유럽/중동
+        elif save_data["iso_3166_1"] in ["RU","TR","SA","GR"]:
             save_data["area"] = 3
 
-        # 남아시아
-        elif save_data["iso_3166_1"] in ["IN","PK"]:
+        # 남/북미
+        elif save_data["iso_3166_1"] in ["US","MX", "BR", "AR"]:
             save_data["area"] = 4
-
-        # 중동
-        elif save_data["iso_3166_1"] in ["IL","EG","TR","IR","SA"]:
-            save_data["area"] = 5
-
-        # 북미
-        elif save_data["iso_3166_1"] in ["US", "CA"]:
-            save_data["area"] = 6
-
-        # 남미
-        elif save_data["iso_3166_1"] in ["MX","BR","AR","CL","CO"]:
-            save_data["area"] = 7
-
-        # 유럽
-        elif save_data["iso_3166_1"] in ["GB","FR","DE","ES","IT","CZ","SE"]:
-            save_data["area"] = 8
-
-        # 오세아니아
-        elif save_data["iso_3166_1"] in ["NZ","AU"]:
-            save_data["area"] = 9
-
-        # 아프리카
-        elif save_data["iso_3166_1"] in ["NG","ET","CD","ZA","TZ"]:
-            save_data["area"] = 10
 
         serializer = CountrySerializer(data=save_data)
         if serializer.is_valid(raise_exception=True):
@@ -155,13 +131,12 @@ def save_genre_data(request):
 
 
 @api_view(['GET',])
-def save_movie_by_country(request, country_id):
+def save_movie_by_country(request, country_id, page):
 
     # 빼야 할 장르 번호 : 12 모험 16 애니메이션 14 판타지 27 공포9648 미스터리 878 SF 53 스릴러
    
     country = get_object_or_404(Country, pk=country_id)
     print(country.iso_3166_1)
-    page = 1
     url = f"https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko&page={page}&sort_by=popularity.desc&vote_count.gte=200&with_origin_country={country.iso_3166_1}&without_genres=36%2C%2012%2C%2016%2C%2014%2C%2027%2C%209648%2C%20878%2C%2053"
     response = requests.get(url, headers=headers).json()
 

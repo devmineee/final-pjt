@@ -1,5 +1,5 @@
 <template>
-  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+  <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
     <MovieHomeAreaButton 
       v-for="area in areas"
       :key="area.id"
